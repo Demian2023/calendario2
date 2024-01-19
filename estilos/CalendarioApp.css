@@ -1,6 +1,21 @@
 html,
 body {
+    font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+}
+
+.contenedor {
+    box-sizing: border-box;
+    min-height: 100vh;
+    max-height: fit-content;
+    width: 100%;
+    min-width: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    padding: 20px;
+    background-color: rgb(190, 215, 224);
 }

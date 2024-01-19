@@ -1,0 +1,60 @@
+html,
+body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.calendario {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    min-width: 320px;
+    width: fit-content;
+    border-radius: 1em;
+    box-shadow: 0 0 25px rgba(30, 30, 30, 0.5);
+    padding: 20px;
+    background-color: rgb(246, 246, 246);
+}
+
+h2 {
+    margin: 10px;
+}
+
+ol {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(7, 0fr);
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+
+.primerDia {
+    grid-column-start: 2;
+}
+
+.numeros {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin: 2px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.numeros:hover {
+    background-color: rgb(208, 208, 208);
+    transition-duration: .5s;
+}
+
+@media screen and (max-width: 450px) {
+    .calendario {
+        min-width: 0;
+    }
+    .numeros {
+        width: 35px;
+        height: 35px;
+    }
+}
