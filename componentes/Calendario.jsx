@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 export const Calendario= ({agregarTarea}) => {
 
   return (
-    <div className="calendario">
+    <div className="marco">
       <h2>Enero 2024</h2>
       <ol>
         <li>Lun</li>

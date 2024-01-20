@@ -1,0 +1,56 @@
+.contenedorDias {
+    min-width: 320px;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.botonesAgenda {
+    flex: 1;
+    min-width: 100px;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.anotacionDia {
+    flex: 4;
+    min-width: 200px;
+    border: 1px solid gray;
+    border-radius: 1em;
+    margin: 10px;
+}
+
+.iconosyTexto {
+    display: flex;
+    align-items: center;
+}
+
+.botonEditar {
+    padding: 0 15px;
+    height: 40px;
+}
+
+.iconosyTexto h3 {
+    margin: 0 5px;
+}
+
+.botonBorrar {
+    padding: 0 15px;
+    height: 40px;
+}
+
+.botonBorrar:hover {
+    color: white;
+    background-color: red !important;
+}
+
+@media screen and (max-width: 450px) {
+    .contenedorAgenda {
+        margin: 50px;
+    }
+    .contenedorDias {
+        min-width: 0;
+    }
+}

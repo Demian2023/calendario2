@@ -9,13 +9,83 @@ body {
 .contenedor {
     box-sizing: border-box;
     min-height: 100vh;
-    max-height: fit-content;
+    height: fit-content;
     width: 100%;
     min-width: 300px;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     flex-wrap: wrap;
     padding: 20px;
     background-color: rgb(190, 215, 224);
+}
+
+.marco {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    min-width: 320px;
+    width: fit-content;
+    border-radius: 1em;
+    box-shadow: 0 0 25px rgba(30, 30, 30, 0.5);
+    margin: 10px;
+    padding: 20px;
+    background-color: rgb(246, 246, 246);
+}
+
+h2,
+h3 {
+    margin: 10px;
+}
+
+ol {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(7, 0fr);
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+
+button {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding: 12px 24px;
+    cursor: pointer;
+    border: none;
+    background-color: rgb(190, 215, 224) !important;
+    box-shadow: 5px 5px 5px rgba(30, 30, 30, 0.25);
+    border-radius: 5px;
+    width: fit-content;
+}
+
+button:hover {
+    background-color: rgb(170, 192, 201) !important;
+}
+
+input {
+    margin-top: 10px;
+    height: 25px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+@media (prefers-color-scheme: light) {
+     :root {
+        color: #213547;
+        background-color: #ffffff;
+    }
+    a:hover {
+        color: #747bff;
+    }
+    button {
+        background-color: #f9f9f9;
+    }
+}
+
+@media screen and (max-width: 450px) {
+    .marco {
+        min-width: 0px;
+    }
 }
