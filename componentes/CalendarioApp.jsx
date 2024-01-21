@@ -55,14 +55,38 @@ export const CalendarioApp = ()=> {
   // modal para edicion
   const [modalEditar, setModalEditar] = useState(false);
 
+  const [diaTextoTarea, setDiaTextoTarea] = useState({
+    dia: "",
+    tarea: ""
+  });
+
   //abrir edicion en la agenda
-  const edicion = () => {
+  const editar = (diaEditar, tareaEditar) => {
     setModalEditar(true);
+    setDiaTextoTarea({dia: diaEditar, tarea: tareaEditar})
   }
 
   //editar agenda
-  const editarAgenda = (editarDia) =>{
-    alert(editarDia);
+  const editarAgenda = (texto, dia) =>{
+    const nuevaTarea = eventos.map(e=> {
+      if (e.dia === dia) {
+       return { ...e, tarea: texto };
+      }
+      return e;
+    });
+    
+    setEventos(nuevaTarea);
+    setModalEditar(false);
+  }
+
+  //borrar
+  const borrar = (dia) => {
+    const confirmarBorrado = window.confirm("¿Seguro de borrar? ");
+    if (confirmarBorrado) {
+      const tareaBorrada = eventos.filter(tarea => tarea.dia !== dia);
+      setEventos(tareaBorrada);
+    }
+    
   }
 
   return (
@@ -70,11 +94,11 @@ export const CalendarioApp = ()=> {
       <Calendario agregarTarea={modalDia}/>
       {/* modal calendario */}
       <Modal modalVisible={modal} setModalVisible={setModal} contenido={<ContenidoModalAgregarTarea dia={diaEvento} agregarTarea={agregarTarea} modal={modal}/>} />
-      <Agenda tareas={eventos} editar={edicion}/>
+      <Agenda tareas={eventos} editar={editar} borrar={borrar}/>
       {/* modal dia repetido */}
       <Modal modalVisible={modalDiaRepetido} setModalVisible={setModalDiaRepetido} contenido={<ContenidoModalDiaRepetido dia={diaEvento} setModal={setModal} setModal2={setModalDiaRepetido}/>}/>
       {/* modal editar */}
-      <Modal modalVisible={modalEditar} setModalVisible={setModalEditar} contenido={<ContenidoModalEditar editarAgenda={editarAgenda} modalEditar={modalEditar}/>}/>
+      <Modal modalVisible={modalEditar} setModalVisible={setModalEditar} contenido={<ContenidoModalEditar editarAgenda={editarAgenda} modalEditar={modalEditar} diaTextoTarea={diaTextoTarea}/>}/>
     </div>
   )
 }
