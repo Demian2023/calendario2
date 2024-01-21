@@ -91,7 +91,7 @@ export const CalendarioApp = ()=> {
 
   return (
     <div className="contenedor">
-      <Calendario agregarTarea={modalDia}/>
+      <Calendario agregarTarea={modalDia} eventos={eventos}/>
       {/* modal calendario */}
       <Modal modalVisible={modal} setModalVisible={setModal} contenido={<ContenidoModalAgregarTarea dia={diaEvento} agregarTarea={agregarTarea} modal={modal}/>} />
       <Agenda tareas={eventos} editar={editar} borrar={borrar}/>

@@ -17,6 +17,10 @@
     transition-duration: .5s;
 }
 
+.diaAgendado {
+    background-color: rgb(255, 118, 118);
+}
+
 @media screen and (max-width: 450px) {
     .calendario {
         min-width: 0;
