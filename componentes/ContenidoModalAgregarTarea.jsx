@@ -5,7 +5,7 @@ export const ContenidoModalAgregarTarea = ({dia, agregarTarea, modal}) => {
 
 return (
 <>
-<h1>{dia} de enero</h1>
+<h1>{dia}</h1>
 <Form formHandler={agregarTarea} modal={modal}/>
 </>
 )}

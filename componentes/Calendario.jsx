@@ -1,57 +1,109 @@
-import '../estilos/Calendario.css'
-import PropTypes from 'prop-types'
+import { useState, useEffect, useMemo } from 'react';
+import '../estilos/Calendario.css';
+import '../estilos/CalendarioApp.css';
+import { hookArrayDias } from './hookArrayDias';
 
-export const Calendario= ({agregarTarea, eventos}) => {
+import PropTypes from 'prop-types';
+
+export const Calendario = ({agregarTarea}) => {
+  const añoActual = new Date().getFullYear();
+  const mesActual = new Date().getMonth();
+
+  const año = useMemo (() => [
+    2018 , 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026, 2027, 2028, 2029, 2030
+  ], []);
+  const mesesDelAño = useMemo (() => [
+    "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
+    "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
+  ], []);
+  const diasDeLaSemana = useMemo (() => [
+    "dom", "lun", "mar", "mie", "jue", "vie", "sab"
+  ], []);
+
+  const [añoSeleccionado, setAñoSeleccionado] = useState(añoActual);
+  const [mesSeleccionado, setMesSeleccionado] = useState(mesesDelAño[mesActual]);
+  const [indice, setIndice] = useState(mesesDelAño.indexOf(mesSeleccionado)); 
+  const [diasArray, setDiasArray] = useState([]);
+  const [diaInicio, setDiaInicio] = useState();
+
+  useEffect(() => {
+    const diasMes = new Date(añoActual, mesActual + 1, 0).getDate();
+    const dias = hookArrayDias(diasMes);
+    setDiasArray(dias);
+
+    const primerDiaDelMes = new Date(añoSeleccionado ? añoSeleccionado : añoActual, mesActual, 1);
+    const diaInicio = primerDiaDelMes.getDay();
+    setDiaInicio(diaInicio);
+  }, [mesesDelAño, mesActual, añoActual, añoSeleccionado]);
+
+  useEffect(() => {
+    if (indice !== null && indice !== -1) {
+      const diasMes = new Date(añoSeleccionado ? añoSeleccionado : añoActual, indice + 1, 0).getDate()
+      const dias = hookArrayDias(diasMes);
+      setDiasArray(dias);
+    }
+  }, [indice, añoActual, añoSeleccionado]);
+
+  const handleChangeAño = (event) => {
+    const añoSeleccionado = event.target.value;
+    setAñoSeleccionado(añoSeleccionado);
+  }
+
+  const handleChangeMes = (event) => {
+    const mesSeleccionado = event.target.value;
+    const nuevoIndice = mesesDelAño.indexOf(mesSeleccionado);
+
+    const primerDiaDelMes = new Date(añoSeleccionado ? añoSeleccionado : añoActual, nuevoIndice, 1);
+    const diaInicio = primerDiaDelMes.getDay();
+    setDiaInicio(diaInicio);
+
+    setMesSeleccionado(mesSeleccionado);
+    setIndice(nuevoIndice);
+  };
 
   return (
-    <div className="marco">
-      <h2>Enero 2024</h2>
-      <ol>
-        <li>Lun</li>
-        <li>Mar</li>
-        <li>Mie</li>
-        <li>Jue</li>
-        <li>Vie</li>
-        <li>Sab</li>
-        <li>Dom</li>
-        <li className={`numeros primerDia ${eventos.some(evento => evento.dia === "1") ? 'diaAgendado' : ''}`} onClick={agregarTarea}>1</li>
-        <li className={`numeros ${eventos.some(evento => evento.dia === "2") ? 'diaAgendado' : ''}`} onClick={agregarTarea}>2</li>
-        <li className={`numeros ${eventos.some(evento => evento.dia === "3") ? 'diaAgendado' : ''}`} onClick={agregarTarea}>3</li>
-        <li className={`numeros ${eventos.some(evento => evento.dia === "4") ? 'diaAgendado' : ''}`} onClick={agregarTarea}>4</li>
-        <li className={`numeros ${eventos.some(evento => evento.dia === "5") ? 'diaAgendado' : ''}`} onClick={agregarTarea}>5</li>
-        <li className={`numeros ${eventos.some(evento => evento.dia === "6") ? 'diaAgendado' : ''}`} onClick={agregarTarea}>6</li>
-        <li className={`numeros ${eventos.some(evento => evento.dia === "7") ? 'diaAgendado' : ''}`} onClick={agregarTarea}>7</li>
-        <li className={`numeros ${eventos.some(evento => evento.dia === "8") ? 'diaAgendado' : ''}`} onClick={agregarTarea}>8</li>
-        <li className={`numeros ${eventos.some(evento => evento.dia === "9") ? 'diaAgendado' : ''}`} onClick={agregarTarea}>9</li>
-        <li className={`numeros ${eventos.some(evento => evento.dia === "10") ? 'diaAgendado' : ''}`} onClick={agregarTarea}>10</li>
-        <li className={`numeros ${eventos.some(evento => evento.dia === "11") ? 'diaAgendado' : ''}`} onClick={agregarTarea}>11</li>
-        <li className={`numeros ${eventos.some(evento => evento.dia === "12") ? 'diaAgendado' : ''}`} onClick={agregarTarea}>12</li>
-        <li className={`numeros ${eventos.some(evento => evento.dia === "13") ? 'diaAgendado' : ''}`} onClick={agregarTarea}>13</li>
-        <li className={`numeros ${eventos.some(evento => evento.dia === "14") ? 'diaAgendado' : ''}`} onClick={agregarTarea}>14</li>
-        <li className={`numeros ${eventos.some(evento => evento.dia === "15") ? 'diaAgendado' : ''}`} onClick={agregarTarea}>15</li>
-        <li className={`numeros ${eventos.some(evento => evento.dia === "16") ? 'diaAgendado' : ''}`} onClick={agregarTarea}>16</li>
-        <li className={`numeros ${eventos.some(evento => evento.dia === "17") ? 'diaAgendado' : ''}`} onClick={agregarTarea}>17</li>
-        <li className={`numeros ${eventos.some(evento => evento.dia === "18") ? 'diaAgendado' : ''}`} onClick={agregarTarea}>18</li>
-        <li className={`numeros ${eventos.some(evento => evento.dia === "19") ? 'diaAgendado' : ''}`} onClick={agregarTarea}>19</li>
-        <li className={`numeros ${eventos.some(evento => evento.dia === "20") ? 'diaAgendado' : ''}`} onClick={agregarTarea}>20</li>
-        <li className={`numeros ${eventos.some(evento => evento.dia === "21") ? 'diaAgendado' : ''}`} onClick={agregarTarea}>21</li>
-        <li className={`numeros ${eventos.some(evento => evento.dia === "22") ? 'diaAgendado' : ''}`} onClick={agregarTarea}>22</li>
-        <li className={`numeros ${eventos.some(evento => evento.dia === "23") ? 'diaAgendado' : ''}`} onClick={agregarTarea}>23</li>
-        <li className={`numeros ${eventos.some(evento => evento.dia === "24") ? 'diaAgendado' : ''}`} onClick={agregarTarea}>24</li>
-        <li className={`numeros ${eventos.some(evento => evento.dia === "25") ? 'diaAgendado' : ''}`} onClick={agregarTarea}>25</li>
-        <li className={`numeros ${eventos.some(evento => evento.dia === "26") ? 'diaAgendado' : ''}`} onClick={agregarTarea}>26</li>
-        <li className={`numeros ${eventos.some(evento => evento.dia === "27") ? 'diaAgendado' : ''}`} onClick={agregarTarea}>27</li>
-        <li className={`numeros ${eventos.some(evento => evento.dia === "28") ? 'diaAgendado' : ''}`} onClick={agregarTarea}>28</li>
-        <li className={`numeros ${eventos.some(evento => evento.dia === "29") ? 'diaAgendado' : ''}`} onClick={agregarTarea}>29</li>
-        <li className={`numeros ${eventos.some(evento => evento.dia === "30") ? 'diaAgendado' : ''}`} onClick={agregarTarea}>30</li>
-        <li className={`numeros ${eventos.some(evento => evento.dia === "31") ? 'diaAgendado' : ''}`} onClick={agregarTarea}>31</li>
-      </ol>
-    </div>
-  )
+    <>
+      <div className="marco">
+        <h3>Elegir año</h3>
+        <select value={añoSeleccionado} onChange={handleChangeAño}>
+          <option value="" disabled>Selecciona el año</option>
+          {año.map((anio, index) => (
+            <option key={index} value={anio}>
+              {anio}
+            </option>
+          ))}
+        </select>
+        <h3>Elegir mes: </h3>
+        <select value={mesSeleccionado} onChange={handleChangeMes}>
+          <option value="" disabled>Selecciona un mes</option>
+          {mesesDelAño.map((mes, index) => (
+            <option key={index} value={mes}>
+              {mes}
+            </option>
+          ))}
+        </select>
+        <ol>
+          {diasDeLaSemana.map((diaSemana, index) => (
+            <li key={index}>
+              {diaSemana}
+            </li>
+          ))}
+        </ol>
+        <ol>
+          {diasArray.map((dia, index) => (
+            <li key={index}
+            className='numeros'
+            style={index === 0 ? { gridColumnStart: diaInicio + 1 } : {}}
+            onClick={()=>{agregarTarea(dia, indice, añoSeleccionado)}}>
+              {dia}
+            </li>
+          ))}
+        </ol>
+      </div>
+    </>
+  );
 }
-
 
 Calendario.propTypes = {
   agregarTarea: PropTypes.func,
-  eventos: PropTypes.array,
 };

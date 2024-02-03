@@ -1,12 +1,19 @@
-.primerDia {
-    grid-column-start: 2;
+ol {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(7, 0fr);
+    text-align: center;
+    width: 250px;
+    margin: 0;
+}
+
+li {
+    margin: 5px;
+    width: 25px;
 }
 
 .numeros {
-    width: 40px;
-    height: 40px;
     border-radius: 50%;
-    margin: 2px;
     display: flex;
     justify-content: center;
     align-items: center;

@@ -10,6 +10,19 @@ import { Agenda } from './Agenda';
 export const CalendarioApp = ()=> {
 
   const [diaEvento, setDiaEvento] = useState("");
+    //orden
+  const [orden, setOrden] = useState("");
+    // modal para calendario dias
+  const [modal, setModal] = useState(false); 
+    // modal para dia repetido
+  const [modalDiaRepetido, setModalDiaRepetido] = useState(false);
+    // modal para edicion
+  const [modalEditar, setModalEditar] = useState(false);
+    //para editar
+  const [diaTextoTarea, setDiaTextoTarea] = useState({});
+    //para ordenar tareas
+  // const [ordenTareas, setOrdenTareas] = useState();
+
 
   //buscar en localstorage los eventos
   const [eventos, setEventos] = useState(() => { 
@@ -22,44 +35,34 @@ export const CalendarioApp = ()=> {
       localStorage.setItem('eventos', JSON.stringify(eventos));
   }, [eventos]); 
   
-  // modal para calendario dias
-  const [modal, setModal] = useState(false); 
-
-  //recuperar el dia y abrir modal para agregar tareas
-  const modalDia = (e) => {  
-    const dia = e.target.textContent;
-    setDiaEvento(dia);
+  // recuperar el dia y abrir modal para agregar tareas
+  const modalDia = (dia, indice, año) => {  
+    const diaFecha = dia < 10 ? "0" + dia : dia;
+    const indiceCorrecto = indice + 1;
+    const mesFecha = indiceCorrecto < 10 ? "0" + indiceCorrecto : indiceCorrecto;
+    setDiaEvento(dia + "/" + mesFecha + "/" + año);
+    setOrden(año + mesFecha + diaFecha);
     setModal(true);
   }
-
-  // modal para dia repetido
-  const [modalDiaRepetido, setModalDiaRepetido] = useState(false);
 
   //agregar tarea a la agenda
   const agregarTarea = (e) => {
     let tareaNueva = {
+      orden: orden,
       dia: diaEvento,
       tarea: e
     }
 
-    if (eventos.some(evento =>  evento.dia === diaEvento)) {
+    if (eventos.some(evento =>  evento.orden === orden)) {
       setModalDiaRepetido(true);
     } else {
       const OrganizarEventos = ([...eventos, tareaNueva]);
-      OrganizarEventos.sort((a, b) => a.dia - b.dia);
+      OrganizarEventos.sort((a, b) => a.orden - b.orden);
       setEventos(OrganizarEventos);
       setModal(false);
     }
   }
-
-  // modal para edicion
-  const [modalEditar, setModalEditar] = useState(false);
-
-  const [diaTextoTarea, setDiaTextoTarea] = useState({
-    dia: "",
-    tarea: ""
-  });
-
+  
   //abrir edicion en la agenda
   const editar = (diaEditar, tareaEditar) => {
     setModalEditar(true);
@@ -67,31 +70,29 @@ export const CalendarioApp = ()=> {
   }
 
   //editar agenda
-  const editarAgenda = (texto, dia) =>{
+  const editarAgenda = (texto, orden) =>{
     const nuevaTarea = eventos.map(e=> {
-      if (e.dia === dia) {
+      if (e.orden === orden) {
        return { ...e, tarea: texto };
       }
       return e;
     });
-    
     setEventos(nuevaTarea);
     setModalEditar(false);
   }
 
   //borrar
-  const borrar = (dia) => {
+  const borrar = (orden) => {
     const confirmarBorrado = window.confirm("¿Seguro de borrar? ");
     if (confirmarBorrado) {
-      const tareaBorrada = eventos.filter(tarea => tarea.dia !== dia);
+      const tareaBorrada = eventos.filter(tarea => tarea.orden !== orden);
       setEventos(tareaBorrada);
     }
-    
   }
 
   return (
     <div className="contenedor">
-      <Calendario agregarTarea={modalDia} eventos={eventos}/>
+      <Calendario agregarTarea={modalDia}/>
       {/* modal calendario */}
       <Modal modalVisible={modal} setModalVisible={setModal} contenido={<ContenidoModalAgregarTarea dia={diaEvento} agregarTarea={agregarTarea} modal={modal}/>} />
       <Agenda tareas={eventos} editar={editar} borrar={borrar}/>
@@ -102,4 +103,3 @@ export const CalendarioApp = ()=> {
     </div>
   )
 }
-
