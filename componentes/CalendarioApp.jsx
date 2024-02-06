@@ -40,7 +40,7 @@ export const CalendarioApp = ()=> {
     const diaFecha = dia < 10 ? "0" + dia : dia;
     const indiceCorrecto = indice + 1;
     const mesFecha = indiceCorrecto < 10 ? "0" + indiceCorrecto : indiceCorrecto;
-    setDiaEvento(dia + "/" + mesFecha + "/" + año);
+    setDiaEvento(diaFecha + "/" + mesFecha + "/" + año);
     setOrden(año + mesFecha + diaFecha);
     setModal(true);
   }
@@ -97,7 +97,7 @@ export const CalendarioApp = ()=> {
       <Modal modalVisible={modal} setModalVisible={setModal} contenido={<ContenidoModalAgregarTarea dia={diaEvento} agregarTarea={agregarTarea} modal={modal}/>} />
       <Agenda tareas={eventos} editar={editar} borrar={borrar}/>
       {/* modal dia repetido */}
-      <Modal modalVisible={modalDiaRepetido} setModalVisible={setModalDiaRepetido} contenido={<ContenidoModalDiaRepetido dia={diaEvento} setModal={setModal} setModal2={setModalDiaRepetido}/>}/>
+      <Modal modalVisible={modalDiaRepetido} setModalVisible={setModalDiaRepetido} contenido={<ContenidoModalDiaRepetido dia={orden} setModal={setModal} setModal2={setModalDiaRepetido}/>}/>
       {/* modal editar */}
       <Modal modalVisible={modalEditar} setModalVisible={setModalEditar} contenido={<ContenidoModalEditar editarAgenda={editarAgenda} modalEditar={modalEditar} diaTextoTarea={diaTextoTarea}/>}/>
     </div>

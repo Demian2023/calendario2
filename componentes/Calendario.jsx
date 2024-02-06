@@ -6,6 +6,7 @@ import { hookArrayDias } from './hookArrayDias';
 import PropTypes from 'prop-types';
 
 export const Calendario = ({agregarTarea}) => {
+  //Obtener año y mes actual
   const añoActual = new Date().getFullYear();
   const mesActual = new Date().getMonth();
 
@@ -26,37 +27,30 @@ export const Calendario = ({agregarTarea}) => {
   const [diasArray, setDiasArray] = useState([]);
   const [diaInicio, setDiaInicio] = useState();
 
+  //obtener la cantidad de dias del mes para hacer un array y poder usar .map()
+  //setear el dia de inicio para poder saber donde empezar el mes (en que dia)
   useEffect(() => {
-    const diasMes = new Date(añoActual, mesActual + 1, 0).getDate();
+    const diasMes = new Date(añoActual, indice ? indice : mesActual + 1, 0).getDate();
     const dias = hookArrayDias(diasMes);
     setDiasArray(dias);
-
     const primerDiaDelMes = new Date(añoSeleccionado ? añoSeleccionado : añoActual, mesActual, 1);
     const diaInicio = primerDiaDelMes.getDay();
     setDiaInicio(diaInicio);
-  }, [mesesDelAño, mesActual, añoActual, añoSeleccionado]);
+  }, [mesesDelAño, mesActual, añoActual, añoSeleccionado, indice]);
 
-  useEffect(() => {
-    if (indice !== null && indice !== -1) {
-      const diasMes = new Date(añoSeleccionado ? añoSeleccionado : añoActual, indice + 1, 0).getDate()
-      const dias = hookArrayDias(diasMes);
-      setDiasArray(dias);
-    }
-  }, [indice, añoActual, añoSeleccionado]);
-
+  //manejar el cambio de año
   const handleChangeAño = (event) => {
     const añoSeleccionado = event.target.value;
     setAñoSeleccionado(añoSeleccionado);
   }
 
+  //manejar el cambio de mes
   const handleChangeMes = (event) => {
     const mesSeleccionado = event.target.value;
     const nuevoIndice = mesesDelAño.indexOf(mesSeleccionado);
-
     const primerDiaDelMes = new Date(añoSeleccionado ? añoSeleccionado : añoActual, nuevoIndice, 1);
     const diaInicio = primerDiaDelMes.getDay();
     setDiaInicio(diaInicio);
-
     setMesSeleccionado(mesSeleccionado);
     setIndice(nuevoIndice);
   };
