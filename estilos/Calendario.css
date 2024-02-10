@@ -2,9 +2,9 @@ ol {
     list-style: none;
     display: grid;
     grid-template-columns: repeat(7, 0fr);
-    text-align: center;
-    width: 250px;
     margin: 0;
+    padding: 0;
+    text-align: center;
 }
 
 li {
@@ -17,6 +17,11 @@ li {
     display: flex;
     justify-content: center;
     align-items: center;
+    padding: 8px;
+}
+
+.diaSemana {
+    padding: 8px;
 }
 
 .numeros:hover {
@@ -26,6 +31,37 @@ li {
 
 .diaAgendado {
     background-color: rgb(255, 118, 118);
+}
+
+.barra {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.botonCalendario {
+    margin: 0px 2px;
+    padding: 8px 10px;
+    cursor: pointer;
+    border: none;
+    background-color: rgb(190, 215, 224) !important;
+    box-shadow: 5px 5px 5px rgba(30, 30, 30, 0.25);
+    border-radius: 5px;
+    width: fit-content;
+    height: 30px;
+}
+
+select {
+    background-color: transparent;
+    border-color: transparent;
+    cursor: pointer;
+    outline: none;
+}
+
+select:active,
+select:focus {
+    background-color: transparent;
+    border-color: transparent;
 }
 
 @media screen and (max-width: 450px) {
