@@ -20,9 +20,8 @@ export const CalendarioApp = ()=> {
   const [modalEditar, setModalEditar] = useState(false);
     //para editar
   const [diaTextoTarea, setDiaTextoTarea] = useState({});
-    //para ordenar tareas
-  // const [ordenTareas, setOrdenTareas] = useState();
-
+    //dias agendados
+  const [diasAgendados, setDiasAgendados] = useState([]);
 
   //buscar en localstorage los eventos
   const [eventos, setEventos] = useState(() => { 
@@ -32,9 +31,14 @@ export const CalendarioApp = ()=> {
 
   // guardar en localstorage
   useEffect(() => {
-      localStorage.setItem('eventos', JSON.stringify(eventos));
+    localStorage.setItem('eventos', JSON.stringify(eventos));
   }, [eventos]); 
-  
+
+  useEffect(() => {
+    const diasOrdenados = eventos.map(evento => evento.orden);
+    setDiasAgendados(diasOrdenados);
+  }, [eventos]);
+
   // recuperar el dia y abrir modal para agregar tareas
   const modalDia = (dia, indice, año) => {  
     const diaFecha = dia < 10 ? "0" + dia : dia;
@@ -92,7 +96,7 @@ export const CalendarioApp = ()=> {
 
   return (
     <div className="contenedor">
-      <Calendario agregarTarea={modalDia}/>
+      <Calendario agregarTarea={modalDia} diasAgendados={diasAgendados}/>
       {/* modal calendario */}
       <Modal modalVisible={modal} setModalVisible={setModal} contenido={<ContenidoModalAgregarTarea dia={diaEvento} agregarTarea={agregarTarea} modal={modal}/>} />
       <Agenda tareas={eventos} editar={editar} borrar={borrar}/>

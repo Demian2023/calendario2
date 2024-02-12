@@ -5,7 +5,7 @@ import { hookArrayDias } from './hookArrayDias';
 
 import PropTypes from 'prop-types';
 
-export const Calendario = ({agregarTarea}) => {
+export const Calendario = ({agregarTarea, diasAgendados}) => {
   //Obtener año y mes actual
   const añoActual = new Date().getFullYear();
   const mesActual = new Date().getMonth();
@@ -33,7 +33,7 @@ export const Calendario = ({agregarTarea}) => {
     const diasMes = new Date(añoActual, indice + 1, 0).getDate();
     const dias = hookArrayDias(diasMes);
     setDiasArray(dias);
-    const primerDiaDelMes = new Date(añoSeleccionado ? añoSeleccionado : añoActual, indice, 1);
+    const primerDiaDelMes = new Date(añoSeleccionado || añoActual, indice, 1);
     const diaInicio = primerDiaDelMes.getDay();
     setDiaInicio(diaInicio);
   }, [mesesDelAño, mesActual, añoActual, añoSeleccionado, indice]);
@@ -48,7 +48,7 @@ export const Calendario = ({agregarTarea}) => {
   const handleChangeMes = (event) => {
     const mesSeleccionado = event.target.value;
     const nuevoIndice = mesesDelAño.indexOf(mesSeleccionado);
-    const primerDiaDelMes = new Date(añoSeleccionado ? añoSeleccionado : añoActual, nuevoIndice, 1);
+    const primerDiaDelMes = new Date(añoSeleccionado || añoActual, nuevoIndice, 1);
     setDiaInicio(primerDiaDelMes.getDay());
     setMesSeleccionado(mesSeleccionado);
     setIndice(nuevoIndice);
@@ -63,7 +63,7 @@ export const Calendario = ({agregarTarea}) => {
       añoSiguiente = añoSeleccionado - 1;
       setAñoSeleccionado(añoSiguiente);
     } else { indiceAnterior = nuevoIndice - 1;}
-    const primerDiaDelMes = new Date(añoSeleccionado ? añoSeleccionado : añoActual, indiceAnterior, 1);
+    const primerDiaDelMes = new Date(añoSeleccionado || añoActual, indiceAnterior, 1);
     setDiaInicio(primerDiaDelMes.getDay());
     setMesSeleccionado(mesesDelAño[indiceAnterior]);
     setIndice(indiceAnterior);
@@ -78,7 +78,7 @@ export const Calendario = ({agregarTarea}) => {
       añoSiguiente = añoSeleccionado + 1;
       setAñoSeleccionado(añoSiguiente);
     } else { indiceSiguiente = nuevoIndice + 1;}
-    const primerDiaDelMes = new Date(añoSeleccionado ? añoSeleccionado : añoActual, indiceSiguiente, 1);
+    const primerDiaDelMes = new Date(añoSeleccionado || añoActual, indiceSiguiente, 1);
     setDiaInicio(primerDiaDelMes.getDay());
     setMesSeleccionado(mesesDelAño[indiceSiguiente]);
     setIndice(indiceSiguiente);
@@ -86,13 +86,19 @@ export const Calendario = ({agregarTarea}) => {
 
   const añoAnterior = () => {
     setAñoSeleccionado((añoSeleccionado) => añoSeleccionado - 1);
-    console.log(añoSeleccionado);
   }
 
   const añoSiguiente = () => {
     setAñoSeleccionado((añoSeleccionado) => añoSeleccionado + 1);
-    console.log(añoSeleccionado);
   }
+
+  const obtenerClaseParaDia = (dia, indice, añoSeleccionado) => {
+    const diaFecha = dia < 10 ? "0" + dia : dia;
+    const indiceCorrecto = indice + 1;
+    const mesFecha = indiceCorrecto < 10 ? "0" + indiceCorrecto : indiceCorrecto;
+    const diaActual = añoSeleccionado + mesFecha + diaFecha;
+    return diasAgendados.includes(diaActual) && "diaAgendado";
+  };
 
   return (
     <>
@@ -148,7 +154,7 @@ export const Calendario = ({agregarTarea}) => {
         <ol>
           {diasArray.map((dia, index) => (
             <li key={index}
-            className='numeros'
+            className={`numeros ${obtenerClaseParaDia(dia, indice, añoSeleccionado)}`}
             style={index === 0 ? { gridColumnStart: diaInicio + 1 } : {}}
             onClick={()=>{agregarTarea(dia, indice, añoSeleccionado)}}>
               {dia}
@@ -162,4 +168,5 @@ export const Calendario = ({agregarTarea}) => {
 
 Calendario.propTypes = {
   agregarTarea: PropTypes.func,
+  diasAgendados: PropTypes.array,
 };
