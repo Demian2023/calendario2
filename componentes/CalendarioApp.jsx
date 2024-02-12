@@ -45,7 +45,7 @@ export const CalendarioApp = ()=> {
     const indiceCorrecto = indice + 1;
     const mesFecha = indiceCorrecto < 10 ? "0" + indiceCorrecto : indiceCorrecto;
     setDiaEvento(diaFecha + "/" + mesFecha + "/" + año);
-    setOrden(año + mesFecha + diaFecha);
+    setOrden(año.toString() + mesFecha.toString() + diaFecha.toString());
     setModal(true);
   }
 
