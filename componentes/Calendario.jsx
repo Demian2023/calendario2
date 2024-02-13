@@ -96,7 +96,7 @@ export const Calendario = ({agregarTarea, diasAgendados}) => {
     const diaFecha = dia < 10 ? "0" + dia : dia;
     const indiceCorrecto = indice + 1;
     const mesFecha = indiceCorrecto < 10 ? "0" + indiceCorrecto : indiceCorrecto;
-    const diaActual = añoSeleccionado + mesFecha + diaFecha;
+    const diaActual = añoSeleccionado + mesFecha.toString() + diaFecha.toString();
     return diasAgendados.includes(diaActual) && "diaAgendado";
   };
 
