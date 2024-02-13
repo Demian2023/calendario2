@@ -68,8 +68,12 @@ select:focus {
     .calendario {
         min-width: 0;
     }
-    .numeros {
-        width: 35px;
-        height: 35px;
+    .numeros,
+    .diaSemana {
+        width: 12px;
+        height: 12px;
+    }
+    .botonCalendario {
+        padding: 8px 6px;
     }
 }
